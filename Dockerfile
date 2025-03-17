@@ -1,6 +1,5 @@
-FROM python:3.12.9-slim-bookworm
+FROM python:3.10-slim
 
-# 作業ディレクトリの設定
 WORKDIR /usr/src/app
 
 # 依存関係ファイルをコピーしてインストール
@@ -13,6 +12,6 @@ RUN python -m spacy download en_core_web_sm
 # アプリケーションのソースコードをコピー
 COPY . .
 
-# Cloud Run用のCMD
-# Cloud Runでは環境変数PORTで指定されたポートでの待受が必要
-CMD ["sh", "-c", "exec uvicorn app:app --host 0.0.0.0 --port ${PORT:-8080}"]
+# Cloud Run用のエントリーポイント
+# Cloud Runは環境変数PORTで待ち受けポートを指定するので、それを直接利用します。
+CMD ["sh", "-c", "exec uvicorn app:app --host 0.0.0.0 --port $PORT"]
