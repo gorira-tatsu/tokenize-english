@@ -12,6 +12,5 @@ RUN python -m spacy download en_core_web_sm
 # アプリケーションのソースコードをコピー
 COPY . .
 
-# Cloud Run用のエントリーポイント
-# Cloud Runは環境変数PORTで待ち受けポートを指定するので、それを直接利用します。
-CMD ["sh", "-c", "exec uvicorn app:app --host 0.0.0.0 --port $PORT"]
+# Cloud Run向けエントリーポイント（環境変数 PORT を利用）
+CMD ["sh", "-c", "exec uvicorn main:app --host 0.0.0.0 --port $PORT"]
